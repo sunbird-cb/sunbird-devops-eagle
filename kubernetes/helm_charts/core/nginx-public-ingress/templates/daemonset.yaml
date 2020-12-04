@@ -35,9 +35,6 @@ spec:
         - name: nginx-config
           configMap:
             name: nginx-conf
-        - name: content-mount
-          persistentVolumeClaim:
-            claimName: my-pvc
 
 {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
@@ -56,8 +53,6 @@ spec:
           - name: nginx-config
             mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
-          - name: content-mount
-            mountPath: /content-mount
 {{- if .Values.volumeMounts }}
 {{ toYaml .Values.volumeMounts | indent 10 }}
 {{- end }}
