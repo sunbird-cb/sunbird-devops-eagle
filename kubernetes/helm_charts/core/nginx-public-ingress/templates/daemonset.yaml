@@ -10,13 +10,10 @@ spec:
       app: nginx-public-ingress
   updateStrategy:
     type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
   template:
     metadata:
       annotations:
         nginxRolloutID: {{ randAlphaNum 5 | quote }} # Restart nginx after every deployment
-        fluentbit.io/parser: nginx2
       labels:
         app: nginx-public-ingress
     spec:
@@ -35,7 +32,6 @@ spec:
         - name: nginx-config
           configMap:
             name: nginx-conf
-
 {{- if .Values.volumes }}
 {{ toYaml .Values.volumes | indent 8 }}
 {{- end }}
