@@ -86,21 +86,21 @@ proxyconfig: |-
   }
   {% endif %}
 
-server {
-  listen                3007;
-  server_name           _;
+  server {
+    listen                3007;
+    server_name           _;
 
-  proxy_set_header    Host              $host;
-  proxy_set_header    X-Real-IP         $remote_addr;
-  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
-  proxy_set_header    X-Forwarded-SSL   on;
-  proxy_set_header    X-Forwarded-Proto $scheme;
+    proxy_set_header    Host              $host;
+    proxy_set_header    X-Real-IP         $remote_addr;
+    proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-SSL   on;
+    proxy_set_header    X-Forwarded-Proto $scheme;
 
-  location /web-hosted/ {
-    root   /content-mount/web-host;
-    rewrite ^/web-hosted/(.*) /$1 break;
-  }
-}
+    location /web-hosted/ {
+      root   /content-mount/web-host;
+      rewrite ^/web-hosted/(.*) /$1 break;
+     }
+   }
 
   server {
   {% if proto=='http' %}
