@@ -80,6 +80,10 @@ spec:
       port: 9145
       targetPort: 9145
       protocol: TCP
+    - name: http-content-port
+      port: 3007
+      targetPort: 3007
+      protocol: TCP   
 ---
 apiVersion: v1
 kind: Service
