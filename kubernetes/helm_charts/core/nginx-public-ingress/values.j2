@@ -220,7 +220,7 @@ proxyconfig: |-
       proxy_read_timeout 70;
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
     # Caching for content consumption
     location ~ /api/(content/v1/read|course/v1/hierarchy) {
@@ -559,7 +559,7 @@ proxyconfig: |-
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
   location ~* ^/content-editor/(.*) {
           # Enabling compression
@@ -718,7 +718,7 @@ proxyconfig: |-
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
   location ~* ^/desktop/(.*) {
           # Enabling cache for Response code 200
@@ -839,7 +839,7 @@ proxyconfig: |-
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
     location / {
       rewrite ^/(.*) /$1 break;
@@ -853,7 +853,7 @@ proxyconfig: |-
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
     location /v3/device/register {
       proxy_set_header X-Request-ID $sb_request_id;
@@ -897,7 +897,7 @@ proxyconfig: |-
       proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
     location /api/channel/v1/read {
       proxy_cache_key $proxy_host$request_uri;
@@ -1039,8 +1039,8 @@ nginxconfig: |
           server {{ keycloak_url.split('//')[-1] }};
           keepalive 1000;
       }
-      upstream player {
-          server player:3000;
+      upstream ui-static {
+          server ui-static:3002;
           keepalive 1000;
       }
       include /etc/nginx/defaults.d/*.conf;
@@ -1173,7 +1173,7 @@ keycloakconf: |
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $request_id;
-      proxy_pass http://player;
+      proxy_pass http://ui-static;
     }
   }
 
