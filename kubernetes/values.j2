@@ -85,23 +85,6 @@ proxyconfig: |-
     return 301 https://{{ proxy_server_name }}$request_uri;
   }
   {% endif %}
-
-server {
-  listen                3007;
-  server_name           _;
-
-  proxy_set_header    Host              $host;
-  proxy_set_header    X-Real-IP         $remote_addr;
-  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
-  proxy_set_header    X-Forwarded-SSL   on;
-  proxy_set_header    X-Forwarded-Proto $scheme;
-
-  location /web-hosted/ {
-    root   /content-mount/web-host;
-    rewrite ^/web-hosted/(.*) /$1 break;
-  }
-}
-
   server {
   {% if proto=='http' %}
     listen                80;
@@ -237,7 +220,7 @@ server {
       proxy_read_timeout 70;
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
     # Caching for content consumption
     location ~ /api/(content/v1/read|course/v1/hierarchy) {
@@ -576,7 +559,7 @@ server {
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
   location ~* ^/content-editor/(.*) {
           # Enabling compression
@@ -735,7 +718,7 @@ server {
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
   location ~* ^/desktop/(.*) {
           # Enabling cache for Response code 200
@@ -856,7 +839,7 @@ server {
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
     location / {
       rewrite ^/(.*) /$1 break;
@@ -870,7 +853,7 @@ server {
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
     location /v3/device/register {
       proxy_set_header X-Request-ID $sb_request_id;
@@ -914,7 +897,7 @@ server {
       proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
     location /api/channel/v1/read {
       proxy_cache_key $proxy_host$request_uri;
@@ -959,7 +942,7 @@ server {
     }
     {# Including custom configuration #}
     {{ proxy_custom_config }}}
- 
+  
 nginxconfig: |
   user  nginx;
   worker_processes  {{nginx_worker_processes | d("auto")}};
@@ -1056,8 +1039,8 @@ nginxconfig: |
           server {{ keycloak_url.split('//')[-1] }};
           keepalive 1000;
       }
-      upstream ui-static {
-          server ui-static:3002;
+      upstream player {
+          server player:3000;
           keepalive 1000;
       }
       include /etc/nginx/defaults.d/*.conf;
@@ -1190,7 +1173,7 @@ keycloakconf: |
       proxy_set_header Connection "";
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $request_id;
-      proxy_pass http://ui-static;
+      proxy_pass http://player;
     }
   }
 
