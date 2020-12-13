@@ -1919,6 +1919,10 @@ nginxconfig: |
           server ui-static:3002;
           keepalive 1000;
       }
+      upstream player {
+          server player:3000;
+          keepalive 1000;
+      }
       include /etc/nginx/defaults.d/*.conf;
       include /etc/nginx/conf.d/*.conf;
       #################
