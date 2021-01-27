@@ -3534,7 +3534,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}}
 	
-    server {
+  server {
   {% if proto=='http' %}
     listen                80;
     listen    [::]:80;
