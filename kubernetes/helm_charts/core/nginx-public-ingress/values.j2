@@ -3535,11 +3535,16 @@ proxyconfig: |-
     {{ proxy_custom_config }}}
 
   server {
-  {% if proto=='http' %}
-    listen                80;
-    listen    [::]:80;
-	return 301 https://igot-sunbird-frac.idc.tarento.com$request_uri;
-  {% else %}
+    if ($host = igot-sunbird-frac.idc.tarento.com) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+      listen       80;
+      server_name  igot-sunbird-frac.idc.tarento.com;
+      return 404; # managed by Certbot
+    }
+
+  server {
     listen                443 ssl;
     ssl_certificate       /etc/secrets/site.crt;
     ssl_certificate_key   /etc/secrets/site.key;
