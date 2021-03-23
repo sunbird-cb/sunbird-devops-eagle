@@ -5968,7 +5968,7 @@ kong_apis:
     
   - name: readAsset
     uris: "{{ event_prefix }}/v4/read/:identifier"
-    upstream_url: "{{ content_service_url }}/v4/read/:identifier"
+    upstream_url: "{{ content_service_url }}/event/v4/read/:identifier"
     strip_uri: true
     plugins:
     - name: jwt
