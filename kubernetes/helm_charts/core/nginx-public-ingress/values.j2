@@ -4601,6 +4601,10 @@ nginxconfig: |
           server ui-spv-igot:3002;
           keepalive 1000;
       }
+      upstream frac-web-service {
+          server frac-web-service:5000;
+          keepalive 1000;
+      }
       upstream ui-mdo-igot {
           server ui-mdo-igot:3002;
           keepalive 1000;
