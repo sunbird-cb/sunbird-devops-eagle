@@ -3593,7 +3593,6 @@ proxyconfig: |-
       proxy_send_timeout 60;
       proxy_read_timeout 70;
       proxy_set_header    X-Forwarded-Proto $scheme;
-      proxy_set_header Connection "";
       proxy_set_header X-Request-ID $sb_request_id;
       proxy_pass http://frac-web-service;
     }
