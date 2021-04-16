@@ -3593,6 +3593,8 @@ proxyconfig: |-
       proxy_send_timeout 60;
       proxy_read_timeout 70;
       proxy_set_header    X-Forwarded-Proto $scheme;
+      proxy_set_header Connection "";
+      proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
       proxy_pass http://frac-web-service;
     }
@@ -3621,15 +3623,6 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
-
-    location /socket.io/ {
-      proxy_pass frac-collab-service:8080;
-      proxy_redirect off;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-   }
-
 
 
     location /fraccollab/ {
