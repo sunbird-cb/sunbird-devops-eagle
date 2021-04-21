@@ -4738,6 +4738,10 @@ nginxconfig: |
           server ui-mdo-igot:3002;
           keepalive 1000;
       }
+      upstream pm-web-service {
+          server pm-web-service:5000;
+          keepalive 1000;
+      }
 
       include /etc/nginx/defaults.d/*.conf;
       include /etc/nginx/conf.d/*.conf;
