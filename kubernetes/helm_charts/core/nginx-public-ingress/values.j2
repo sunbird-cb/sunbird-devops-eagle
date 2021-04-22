@@ -1818,6 +1818,16 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}}
 
+  server {
+    if ($host = igot-sunbird-cbp.idc.tarento.com) {
+        return 301 https://$host$request_uri;
+        }
+
+      listen       80;
+      server_name  igot-sunbird-cbp.idc.tarento.com;
+      return 404;
+    }
+
    server {
   {% if proto=='http' %}
     listen                80;
@@ -2675,6 +2685,16 @@ proxyconfig: |-
     }
     {# Including custom configuration #}
     {{ proxy_custom_config }}}
+
+  server {
+    if ($host = igot-sunbird-spv.idc.tarento.com) {
+        return 301 https://$host$request_uri;
+        }
+
+      listen       80;
+      server_name  igot-sunbird-spv.idc.tarento.com;
+      return 404;
+    }
 
    server {
   {% if proto=='http' %}
@@ -3760,6 +3780,16 @@ proxyconfig: |-
     }
     {# Including custom configuration #}
     {{ proxy_custom_config }}}
+
+  server {
+    if ($host = igot-sunbird-mdo.idc.tarento.com) {
+        return 301 https://$host$request_uri;
+        }
+
+      listen       80;
+      server_name  igot-sunbird-mdo.idc.tarento.com;
+      return 404;
+    }
 
   server {
   {% if proto=='http' %}
