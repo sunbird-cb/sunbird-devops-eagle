@@ -1837,10 +1837,6 @@ proxyconfig: |-
     }
 
    server {
-  {% if proto=='http' %}
-    listen                80;
-    listen    [::]:80;
-  {% else %}
     listen                443 ssl;
     ssl_certificate       /etc/secrets/site.crt;
     ssl_certificate_key   /etc/secrets/site.key;
@@ -2709,10 +2705,6 @@ proxyconfig: |-
     }
 
    server {
-  {% if proto=='http' %}
-    listen                80;
-    listen    [::]:80;
-  {% else %}
     listen                443 ssl;
     ssl_certificate       /etc/secrets/site.crt;
     ssl_certificate_key   /etc/secrets/site.key;
@@ -3816,10 +3808,6 @@ proxyconfig: |-
     }
 
   server {
-  {% if proto=='http' %}
-    listen                80;
-    listen    [::]:80;
-  {% else %}
     listen                443 ssl;
     ssl_certificate       /etc/secrets/site.crt;
     ssl_certificate_key   /etc/secrets/site.key;
