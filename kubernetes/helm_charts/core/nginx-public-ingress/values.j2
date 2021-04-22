@@ -3757,8 +3757,21 @@ proxyconfig: |-
       add_header Content-Type text/plain;
     }
     {# Including custom configuration #}
-    {{ proxy_custom_config }}}
+    {{ proxy_custom_config }}
 
+    client_max_body_size 200M;
+
+    }
+
+  server {
+    if ($host = igot-pp-sunbird-mdo.idc.tarento.com) {
+        return 301 https://$host$request_uri;
+        }
+
+      listen       80;
+      server_name  igot-pp-sunbird-mdo.idc.tarento.com;
+      return 404;
+    }
 
   server {
   {% if proto=='http' %}
