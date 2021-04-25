@@ -4850,6 +4850,8 @@ nginxconfig: |
 
       include /etc/nginx/defaults.d/*.conf;
       include /etc/nginx/conf.d/*.conf;
+
+      server_names_hash_bucket_size  64;
       #################
       # Caching Block #
       #################
