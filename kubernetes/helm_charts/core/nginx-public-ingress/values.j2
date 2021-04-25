@@ -3793,12 +3793,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = igot-pp-sunbird-frac-dictionary.idc.tarento.com) {
+    if ($host = igot-pp-sunbird-frac-dic.idc.tarento.com) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  igot-pp-sunbird-frac-dictionary.idc.tarento.com;
+      server_name  igot-pp-sunbird-frac-dic.idc.tarento.com;
       return 404; # managed by Certbot
     }
 
@@ -3808,7 +3808,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-frac-dictionary.idc.tarento.com igot-pp-sunbird-frac-dictionary.idc.tarento.com;
+    server_name *.igot-pp-sunbird-frac-dic.idc.tarento.com igot-pp-sunbird-frac-dic.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -4851,7 +4851,6 @@ nginxconfig: |
       include /etc/nginx/defaults.d/*.conf;
       include /etc/nginx/conf.d/*.conf;
 
-      server_names_hash_bucket_size  64;
       #################
       # Caching Block #
       #################
