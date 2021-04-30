@@ -976,7 +976,7 @@ proxyconfig: |-
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
   {% endif  %}
-    server_name *.igot-pp-sunbird-ui.idc.tarento.com igot-pp-sunbird-ui.idc.tarento.com;
+    server_name *.ui.igot-stage.in ui.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -997,13 +997,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://igot-pp-sunbird-ui.idc.tarento.com;
+      return 301 {{proto}}://ui.igot-stage.in;
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://igot-pp-sunbird-ui.idc.tarento.com;
+      return 301 {{proto}}://ui.igot-stage.in;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-ui.idc.tarento.com;
+      return 301 {{proto}}://ui.igot-stage.in;
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -1024,7 +1024,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-ui.idc.tarento.com;
+      return 301 {{proto}}://ui.igot-stage.in;
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -1828,12 +1828,12 @@ proxyconfig: |-
     }
 
    server {
-    if ($host = igot-pp-sunbird-cbp.idc.tarento.com) {
+    if ($host = cbp.igot-stage.in) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  igot-pp-sunbird-cbp.idc.tarento.com;
+      server_name  cbp.igot-stage.in;
       return 404;
     }
    server {
@@ -1842,7 +1842,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-cbp.idc.tarento.com igot-pp-sunbird-cbp.idc.tarento.com;
+    server_name *.cbp.igot-stage.in cbp.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -1863,13 +1863,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://igot-pp-sunbird-cbp.idc.tarento.com;
+      return 301 {{proto}}://cbp.igot-stage.in;
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://igot-pp-sunbird-cbp.idc.tarento.com;
+      return 301 {{proto}}://cbp.igot-stage.in;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-cbp.idc.tarento.com;
+      return 301 {{proto}}://cbp.igot-stage.in;
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -1890,7 +1890,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-cbp.idc.tarento.com;
+      return 301 {{proto}}://cbp.igot-stage.in;
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -2694,12 +2694,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = igot-pp-sunbird-cbc.idc.tarento.com) {
+    if ($host = cbc.igot-stage.in) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  igot-pp-sunbird-cbc.idc.tarento.com;
+      server_name  cbc.igot-stage.in;
       return 404;
     }
 
@@ -2709,7 +2709,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-cbc.idc.tarento.com igot-pp-sunbird-cbc.idc.tarento.com;
+    server_name *.cbc.igot-stage.in cbc.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -2730,13 +2730,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://igot-pp-sunbird-cbc.idc.tarento.com;
+      return 301 {{proto}}://cbc.igot-stage.in;
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://igot-pp-sunbird-cbc.idc.tarento.com;
+      return 301 {{proto}}://cbc.igot-stage.in;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-cbc.idc.tarento.com;
+      return 301 {{proto}}://cbc.igot-stage.in;
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -2757,7 +2757,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-cbc.idc.tarento.com;
+      return 301 {{proto}}://cbc.igot-stage.in;
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -2932,12 +2932,12 @@ proxyconfig: |-
 
 
    server {
-    if ($host = igot-pp-sunbird-spv.idc.tarento.com) {
+    if ($host = spv.igot-stage.in) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  igot-pp-sunbird-spv.idc.tarento.com;
+      server_name  spv.igot-stage.in;
       return 404;
     }
    server {
@@ -2946,7 +2946,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-spv.idc.tarento.com igot-pp-sunbird-spv.idc.tarento.com;
+    server_name *.spv.igot-stage.in spv.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -2967,13 +2967,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://igot-pp-sunbird-spv.idc.tarento.com;
+      return 301 {{proto}}://spv.igot-stage.in;
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://igot-pp-sunbird-spv.idc.tarento.com;
+      return 301 {{proto}}://spv.igot-stage.in;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-spv.idc.tarento.com;
+      return 301 {{proto}}://spv.igot-stage.in;
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -2994,7 +2994,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-spv.idc.tarento.com;
+      return 301 {{proto}}://spv.igot-stage.in;
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -3798,12 +3798,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = igot-pp-sunbird-frac.idc.tarento.com) {
+    if ($host = frac.igot-stage.in) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  igot-pp-sunbird-frac.idc.tarento.com;
+      server_name  frac.igot-stage.in;
       return 404; 
     }
 
@@ -3813,7 +3813,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-frac.idc.tarento.com igot-pp-sunbird-frac.idc.tarento.com;
+    server_name *.frac.igot-stage.in frac.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -3932,12 +3932,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = igot-pp-sunbird-pm.idc.tarento.com) {
+    if ($host = pm.igot-stage.in) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  igot-pp-sunbird-pm.idc.tarento.com;
+      server_name  pm.igot-stage.in;
       return 404; # managed by Certbot
     }
 
@@ -3947,7 +3947,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-pm.idc.tarento.com igot-pp-sunbird-pm.idc.tarento.com;
+    server_name *.pm.igot-stage.in pm.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -4031,12 +4031,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = igot-pp-sunbird-frac-dic.idc.tarento.com) {
+    if ($host = frac-dictionary.igot-stage.in) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  igot-pp-sunbird-frac-dic.idc.tarento.com;
+      server_name  frac-dictionary.igot-stage.in;
       return 404; # managed by Certbot
     }
 
@@ -4046,7 +4046,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-frac-dic.idc.tarento.com igot-pp-sunbird-frac-dic.idc.tarento.com;
+    server_name *.frac-dictionary.igot-stage.in frac-dictionary.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -4095,12 +4095,12 @@ proxyconfig: |-
 
 
   server {
-    if ($host = igot-pp-sunbird-mdo.idc.tarento.com) {
+    if ($host = mdo.igot-stage.in) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  igot-pp-sunbird-mdo.idc.tarento.com;
+      server_name  mdo.igot-stage.in;
       return 404;
     }
 
@@ -4110,7 +4110,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.igot-pp-sunbird-mdo.idc.tarento.com igot-pp-sunbird-mdo.idc.tarento.com;
+    server_name *.mdo.igot-stage.in mdo.igot-stage.in;
     {#
     custom nginx server config section
     eg:
@@ -4131,13 +4131,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://igot-pp-sunbird-mdo.idc.tarento.com;
+      return 301 {{proto}}://mdo.igot-stage.in;
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://igot-pp-sunbird-mdo.idc.tarento.com;
+      return 301 {{proto}}://mdo.igot-stage.in;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-mdo.idc.tarento.com;
+      return 301 {{proto}}://mdo.igot-stage.in;
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -4158,7 +4158,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://igot-pp-sunbird-mdo.idc.tarento.com;
+      return 301 {{proto}}://mdo.igot-stage.in;
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
