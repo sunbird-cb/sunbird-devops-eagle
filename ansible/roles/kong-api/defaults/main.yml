@@ -79,6 +79,7 @@ collection_prefix: /collection
 question_prefix: /question
 questionset_prefix: /questionset
 event_prefix: /event
+notification_service_prefix: /notification
 
 # Service URLs
 knowledge_mw_service_url: "http://knowledge-mw-service:5000"
@@ -98,6 +99,7 @@ group_service_url: "http://groups-service:9000"
 analytics_api_service_url: "http://analytics-service:9000"
 taxonomy_service_url: "http://taxonomy-service:9000"
 assessment_service_url: "http://assessment-service:9000"
+notification_service_url: "http://notification-service:9000"
 
 premium_consumer_rate_limits:
   - api: createContent
@@ -6019,3 +6021,21 @@ kong_apis:
       config.limit_by: credential
     - name: request-size-limiting
       config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: sendEmailNotificationSer
+    uris: "{{ notification_service_prefix }}/v1/notification/send/sync"
+    upstream_url: "{{ notification_service_url }}/v1/notification/send/sync"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'appUpdate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ medium_request_size_limit }}"
