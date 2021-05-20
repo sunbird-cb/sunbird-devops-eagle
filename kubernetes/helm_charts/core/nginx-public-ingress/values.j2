@@ -411,7 +411,7 @@ proxyconfig: |-
       proxy_pass $target;
     }
 
-    location /content {
+    location /content/ {
       resolver 8.8.8.8;
       if ($request_uri ~* "/content/(.*)") {
         proxy_pass https://igot.blob.core.windows.net/content/$1;
