@@ -411,9 +411,9 @@ proxyconfig: |-
       proxy_pass $target;
     }
 
-    location /content/ {
+    location /content {
 
-      proxy_pass https://igot.blob.core.windows.net/content/;
+      proxy_pass https://igot.blob.core.windows.net/content;
       proxy_set_header Host https://igot.blob.core.windows.net;
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
