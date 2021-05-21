@@ -6006,7 +6006,7 @@ kong_apis:
 
   - name: publishEvent
     uris: "{{ event_prefix }}/v4/publish"
-    upstream_url: "{{ content_service_url }}/v4/event/publish"
+    upstream_url: "{{ content_service_url }}/event/v4/publish"
     strip_uri: true
     plugins:
     - name: jwt
