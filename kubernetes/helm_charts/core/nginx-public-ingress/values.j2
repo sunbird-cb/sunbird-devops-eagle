@@ -4031,12 +4031,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = frac-dictionary.igot-stage.in) {
+    if ($host = frac-dictionary-backend.igot-stage.in) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  frac-dictionary.igot-stage.in;
+      server_name  frac-dictionary-backend.igot-stage.in;
       return 404; # managed by Certbot
     }
 
@@ -4046,7 +4046,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.frac-dictionary.igot-stage.in frac-dictionary.igot-stage.in;
+    server_name *.frac-dictionary-backend.igot-stage.in frac-dictionary-backend.igot-stage.in;
     {#
     custom nginx server config section
     eg:
