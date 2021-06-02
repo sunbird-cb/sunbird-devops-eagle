@@ -436,7 +436,7 @@ proxyconfig: |-
 
          set $url_full         '$1';
          proxy_http_version     1.1;
-         proxy_set_header       Host account.blob.core.windows.net;
+         proxy_set_header       Host https://igot-content.azureedge.net;
          proxy_set_header       Authorization '';
          proxy_hide_header      Access-Control-Allow-Origin;
          proxy_hide_header      Access-Control-Allow-Methods;
@@ -449,7 +449,7 @@ proxyconfig: |-
          add_header             Access-Control-Allow-Origin "*";
          add_header             Access-Control-Allow-Methods GET;
          proxy_set_header X-Request-ID $sb_request_id;
-         proxy_pass             https://igot.blob.core.windows.net/content;
+         proxy_pass             https://https://igot-content.azureedge.net/content;
     }  
 
     # Oauth2 config
