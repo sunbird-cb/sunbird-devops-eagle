@@ -19,7 +19,7 @@ statsd_pulgin:
 small_rate_limit_per_hour: 100
 medium_rate_limit_per_hour: 5000
 x_medium_rate_limit_per_hour: 5000
-large_rate_limit_per_hour: 10000
+large_rate_limit_per_hour: 100000
 x2_large_rate_limit_per_hour: 15000
 x_large_rate_limit_per_hour: 30000
 
