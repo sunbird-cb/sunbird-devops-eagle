@@ -16,16 +16,16 @@ statsd_pulgin:
   config.port: "{{ statsd_port }}"
 
 # Default Rate limits
-small_rate_limit_per_hour: 100
-medium_rate_limit_per_hour: 5000
-x_medium_rate_limit_per_hour: 5000
-large_rate_limit_per_hour: 100000
-x2_large_rate_limit_per_hour: 15000
-x_large_rate_limit_per_hour: 30000
+small_rate_limit_per_hour: 10000
+medium_rate_limit_per_hour: 500000
+x_medium_rate_limit_per_hour: 500000
+large_rate_limit_per_hour: 10000000
+x2_large_rate_limit_per_hour: 1500000
+x_large_rate_limit_per_hour: 3000000
 
-premium_consumer_small_rate_limit_per_hour: 1000
-premium_consumer_medium_rate_limit_per_hour: 10000
-premium_consumer_large_rate_limit_per_hour: 100000
+premium_consumer_small_rate_limit_per_hour: 100000
+premium_consumer_medium_rate_limit_per_hour: 1000000
+premium_consumer_large_rate_limit_per_hour: 1000000
 
 # Default max request size in MB
 small_request_size_limit: 1
