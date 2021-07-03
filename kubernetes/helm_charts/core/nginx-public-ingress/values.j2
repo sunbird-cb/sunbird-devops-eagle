@@ -4172,7 +4172,7 @@ proxyconfig: |-
       proxy_set_header X-Forwarded-Host $host;
       proxy_set_header X-Forwarded-Server $host;
       rewrite ^/apis/(.*) /$1 break;
-      proxy_pass http://vega-console-service:80;
+      proxy_pass http://vega-console-service:8081;
       proxy_connect_timeout 10;
       proxy_send_timeout 300;
       proxy_read_timeout 300;
