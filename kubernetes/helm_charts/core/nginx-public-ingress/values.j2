@@ -4155,7 +4155,7 @@ proxyconfig: |-
       proxy_pass http://vega-web-service;
     }
 
-    location /apis {
+    location /vegaapis {
 
       if ($request_method = OPTIONS ) {
               add_header Access-Control-Allow-Origin "*" ;
@@ -4171,7 +4171,7 @@ proxyconfig: |-
       proxy_set_header Host $host;
       proxy_set_header X-Forwarded-Host $host;
       proxy_set_header X-Forwarded-Server $host;
-      rewrite ^/apis/(.*) /$1 break;
+      rewrite ^/vegaapis/(.*) /$1 break;
       proxy_pass http://vega-console-service:8081;
       proxy_connect_timeout 10;
       proxy_send_timeout 300;
