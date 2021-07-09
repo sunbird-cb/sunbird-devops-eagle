@@ -6069,7 +6069,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'userAssessmentSubmit'
+        - 'dataCreate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6088,7 +6088,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'topPerformersForCourse'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6124,7 +6124,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'courseSuperAdmin'
+        - 'dataCreate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6142,7 +6142,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'getCatalog'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6161,7 +6161,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'addWorkAllocation'
+        - 'dataCreate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6179,7 +6179,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'updateWorkAllocation'
+        - 'dataUpdate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6198,7 +6198,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'addWorkOrder'
+        - 'dataCreate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6217,7 +6217,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'updateWorkOrder'
+        - 'dataUpdate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6236,7 +6236,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'getWorkOrders'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6254,7 +6254,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'getWorkOrderById'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6273,7 +6273,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'getWorkAllocationById'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6291,7 +6291,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'copyWorkOrder'
+        - 'dataCreate'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6309,7 +6309,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'getUserBasicDetails'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
@@ -6328,7 +6328,7 @@ kong_apis:
     - "{{ statsd_pulgin }}"
     - name: acl
       config.whitelist:
-        - 'watAutoComplete'
+        - 'dataAccess'
     - name: rate-limiting
       config.policy: local
       config.hour: "{{ medium_rate_limit_per_hour }}"
