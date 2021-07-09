@@ -85,6 +85,7 @@ kong_all_consumer_groups:
   - druidReportCreate
   - druidReportAdmin
   - dataCreate
+  - dataUpdate
 
 kong_consumers:
   - username: api-admin
