@@ -80,8 +80,8 @@ question_prefix: /question
 questionset_prefix: /questionset
 event_prefix: /event
 notification_service_prefix: /notification
-content_validation_service_prefix: /contentValidation/v1
-scoring_engine_service_prefix: /action/scoring
+content_validation_service_prefix: /contentValidation
+scoring_engine_service_prefix: /scoring
 
 # Service URLs
 knowledge_mw_service_url: "http://knowledge-mw-service:5000"
@@ -6377,8 +6377,8 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
       
   - name: startPdfProfanity
-    uris: "{{ content_validation_service_prefix }}/startPdfProfanity"
-    upstream_url: "{{ content_validation_service_url }}/contentValidation/v1/startPdfProfanity"
+    uris: "{{ content_validation_service_prefix }}/v1/startPdfProfanity"
+    upstream_url: "{{ content_validation_service_url }}/v1/startPdfProfanity"
     strip_uri: true
     plugins:
     - name: jwt
@@ -6395,8 +6395,8 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
        
   - name: getPdfProfanity
-    uris: "{{ content_validation_service_prefix }}/getPdfProfanity"
-    upstream_url: "{{ content_validation_service_url }}/contentValidation/v1/getPdfProfanity"
+    uris: "{{ content_validation_service_prefix }}/v1/getPdfProfanity"
+    upstream_url: "{{ content_validation_service_url }}/v1/getPdfProfanity"
     strip_uri: true
     plugins:
     - name: jwt
@@ -6413,8 +6413,8 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
       
   - name: getPdfProfanityForContent
-    uris: "{{ content_validation_service_prefix }}/getPdfProfanityForContent"
-    upstream_url: "{{ content_validation_service_url }}/contentValidation/v1/getPdfProfanityForContent"
+    uris: "{{ content_validation_service_prefix }}/v1/getPdfProfanityForContent"
+    upstream_url: "{{ content_validation_service_url }}/v1/read/contentPdfProfanity"
     strip_uri: true
     plugins:
     - name: jwt
@@ -6432,7 +6432,7 @@ kong_apis:
       
   - name: calculateScore
     uris: "{{ scoring_engine_service_prefix }}/add"
-    upstream_url: "{{ scoring_engine_service_url }}/action/scoring/add"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/add"
     strip_uri: true
     plugins:
     - name: jwt
@@ -6450,7 +6450,7 @@ kong_apis:
       
   - name: fetchScore
     uris: "{{ scoring_engine_service_prefix }}/fetch"
-    upstream_url: "{{ scoring_engine_service_url }}/action/scoring/fetch"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/fetch"
     strip_uri: true
     plugins:
     - name: jwt
@@ -6468,7 +6468,7 @@ kong_apis:
           
   - name: getScoringTemplate
     uris: "{{ scoring_engine_service_prefix }}/getTemplate"
-    upstream_url: "{{ scoring_engine_service_url }}/action/scoring/getTemplate"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/getTemplate"
     strip_uri: true
     plugins:
     - name: jwt
