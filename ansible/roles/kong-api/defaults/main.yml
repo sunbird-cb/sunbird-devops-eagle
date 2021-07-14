@@ -6431,7 +6431,7 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
       
   - name: calculateScore
-    uris: "{{ scoring_engine_service_prefix }}/add"
+    uris: "{{ scoring_engine_service_prefix }}/v1/add"
     upstream_url: "{{ scoring_engine_service_url }}/v1/add"
     strip_uri: true
     plugins:
@@ -6449,7 +6449,7 @@ kong_apis:
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
       
   - name: fetchScore
-    uris: "{{ scoring_engine_service_prefix }}/fetch"
+    uris: "{{ scoring_engine_service_prefix }}/v1/fetch"
     upstream_url: "{{ scoring_engine_service_url }}/v1/fetch"
     strip_uri: true
     plugins:
@@ -6467,7 +6467,7 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
           
   - name: getScoringTemplate
-    uris: "{{ scoring_engine_service_prefix }}/getTemplate"
+    uris: "{{ scoring_engine_service_prefix }}/v1/getTemplate"
     upstream_url: "{{ scoring_engine_service_url }}/v1/getTemplate"
     strip_uri: true
     plugins:
