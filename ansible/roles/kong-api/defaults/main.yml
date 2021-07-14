@@ -80,6 +80,8 @@ question_prefix: /question
 questionset_prefix: /questionset
 event_prefix: /event
 notification_service_prefix: /notification
+content_validation_service_prefix: /contentValidation
+scoring_engine_service_prefix: /scoring
 
 # Service URLs
 knowledge_mw_service_url: "http://knowledge-mw-service:5000"
@@ -101,6 +103,8 @@ taxonomy_service_url: "http://taxonomy-service:9000"
 assessment_service_url: "http://assessment-service:9000"
 notification_service_url: "http://notification-service:9000"
 sb_cb_ext_service_url: "http://sb-cb-ext-service:7001"
+content_validation_service_url: "http://content-validation-service:6590"
+scoring_engine_service_url: "http://scoring-engine-service:7014"
 
 premium_consumer_rate_limits:
   - api: createContent
@@ -4168,7 +4172,7 @@ kong_apis:
     - name: request-size-limiting
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
       
- - name: privateUpdateUser
+  - name: privateUpdateUser
     uris: "{{ user_service_prefix }}/private/v1/update"
     upstream_url: "{{ learning_service_url }}/private/user/v1/update"
     strip_uri: true
@@ -6357,6 +6361,114 @@ kong_apis:
   - name: getWOPdf
     uris: "/getWOPdf"
     upstream_url: "{{ sb_cb_ext_service_url }}/getWOPdf"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: startPdfProfanity
+    uris: "{{ content_validation_service_prefix }}/v1/startPdfProfanity"
+    upstream_url: "{{ content_validation_service_url }}/v1/startPdfProfanity"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+       
+  - name: getPdfProfanity
+    uris: "{{ content_validation_service_prefix }}/v1/getPdfProfanity"
+    upstream_url: "{{ content_validation_service_url }}/v1/getPdfProfanity"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: getPdfProfanityForContent
+    uris: "{{ content_validation_service_prefix }}/v1/getPdfProfanityForContent"
+    upstream_url: "{{ content_validation_service_url }}/v1/read/contentPdfProfanity"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: calculateScore
+    uris: "{{ scoring_engine_service_prefix }}/v1/add"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/add"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ medium_request_size_limit }}"
+      
+  - name: fetchScore
+    uris: "{{ scoring_engine_service_prefix }}/v1/fetch"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/fetch"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+          
+  - name: getScoringTemplate
+    uris: "{{ scoring_engine_service_prefix }}/v1/getTemplate"
+    upstream_url: "{{ scoring_engine_service_url }}/v1/getTemplate"
     strip_uri: true
     plugins:
     - name: jwt
