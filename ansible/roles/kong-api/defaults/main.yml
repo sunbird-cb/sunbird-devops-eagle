@@ -4172,7 +4172,7 @@ kong_apis:
     - name: request-size-limiting
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
       
- - name: privateUpdateUser
+  - name: privateUpdateUser
     uris: "{{ user_service_prefix }}/private/v1/update"
     upstream_url: "{{ learning_service_url }}/private/user/v1/update"
     strip_uri: true
