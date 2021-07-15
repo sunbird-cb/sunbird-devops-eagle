@@ -4171,24 +4171,6 @@ kong_apis:
       config.limit_by: credential
     - name: request-size-limiting
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
-      
-  - name: privateUpdateUser
-    uris: "{{ user_service_prefix }}/private/v1/update"
-    upstream_url: "{{ learning_service_url }}/private/user/v1/update"
-    strip_uri: true
-    plugins:
-    - name: jwt
-    - name: cors
-    - "{{ statsd_pulgin }}"
-    - name: acl
-      config.whitelist:
-        - 'privateUpdateUser'
-    - name: rate-limiting
-      config.policy: local
-      config.hour: "{{ medium_rate_limit_per_hour }}"
-      config.limit_by: credential
-    - name: request-size-limiting
-      config.allowed_payload_size: "{{ medium_request_size_limit }}"
 
   - name: updateUserloginTime
     uris: "{{ user_service_prefix }}/v1/update/logintime"
