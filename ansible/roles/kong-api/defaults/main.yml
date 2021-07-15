@@ -82,6 +82,8 @@ event_prefix: /event
 notification_service_prefix: /notification
 content_validation_service_prefix: /contentValidation
 scoring_engine_service_prefix: /scoring
+hub_graph_service_prefix: /connections
+workflow_handler_service_prefix: /workflow
 
 # Service URLs
 knowledge_mw_service_url: "http://knowledge-mw-service:5000"
@@ -105,6 +107,9 @@ notification_service_url: "http://notification-service:9000"
 sb_cb_ext_service_url: "http://sb-cb-ext-service:7001"
 content_validation_service_url: "http://content-validation-service:6590"
 scoring_engine_service_url: "http://scoring-engine-service:7014"
+hub_graph_service_url: "http://hub-graph-service:4013"
+workflow_handler_service_url: "http://workflow-handler-service:5099"
+
 
 premium_consumer_rate_limits:
   - api: createContent
@@ -6451,6 +6456,284 @@ kong_apis:
   - name: getScoringTemplate
     uris: "{{ scoring_engine_service_prefix }}/v1/getTemplate"
     upstream_url: "{{ scoring_engine_service_url }}/v1/getTemplate"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: findRecommendedConnection
+    uris: "{{ hub_graph_service_prefix }}/profile/find/recommended"
+    upstream_url: "{{ hub_graph_service_url }}/connections/profile/find/recommended"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+  - name: findSuggestedConnection
+    uris: "{{ hub_graph_service_prefix }}/profile/find/suggests"
+    upstream_url: "{{ hub_graph_service_url }}/connections/profile/find/suggests"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+  - name: fetchRequestedConnection
+    uris: "{{ hub_graph_service_prefix }}/profile/fetch/requested"
+    upstream_url: "{{ hub_graph_service_url }}/connections/profile/fetch/requested"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: fetchRequestedReceivedConnection
+    uris: "{{ hub_graph_service_prefix }}/profile/fetch/requests/received"
+    upstream_url: "{{ hub_graph_service_url }}/connections/profile/fetch/requests/received"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+  - name: fetchEstablishedConnection
+    uris: "{{ hub_graph_service_prefix }}/profile/fetch/established"
+    upstream_url: "{{ hub_graph_service_url }}/connections/profile/fetch/established"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: addConnection
+    uris: "{{ hub_graph_service_prefix }}/add"
+    upstream_url: "{{ hub_graph_service_url }}/connections/add"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: updateConnection
+    uris: "{{ hub_graph_service_prefix }}/update"
+    upstream_url: "{{ hub_graph_service_url }}/connections/update"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+          
+  - name: userAutoComplete
+    uris: "/v1/user/autocomplete"
+    upstream_url: "{{ hub_graph_service_url }}/v1/user/autocomplete"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
+  - name: workflowTransition
+    uris: "{{ workflow_handler_service_prefix }}/transition"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/transition"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: workflowApplicationsSearch
+    uris: "{{ workflow_handler_service_prefix }}/applications/search"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/applications/search"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: workflowNextAction
+    uris: "{{ workflow_handler_service_prefix }}/nextAction"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/nextAction"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: workflowProcess
+    uris: "{{ workflow_handler_service_prefix }}/workflowProcess"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/workflowProcess"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+  - name: workflowUpdateUserProfileWf
+    uris: "{{ workflow_handler_service_prefix }}/updateUserProfileWF"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/updateUserProfileWF"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataCreate'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: workflowGetUserWF
+    uris: "{{ workflow_handler_service_prefix }}/getUserWF"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/getUserWF"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+
+
+  - name: workflowGetUserWFApplicationFields
+    uris: "{{ workflow_handler_service_prefix }}/getUserWFApplicationFields"
+    upstream_url: "{{ workflow_handler_service_url }}/v1/workflow/getUserWFApplicationFields"
     strip_uri: true
     plugins:
     - name: jwt
