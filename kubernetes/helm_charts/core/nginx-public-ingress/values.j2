@@ -80,9 +80,24 @@ proxyconfig: |-
 {% if nginx_server_config is defined and nginx_server_config %}
   {{ nginx_server_config | indent( width=4, indentfirst=True)  }}
 {% endif %}
+
+
     # Limitting open connection per ip
     limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
-    return 301 https://{{ proxy_server_name }}$request_uri;
+    #return 301 https://{{ proxy_server_name }}$request_uri;
+  location / {
+    if ($request_method = OPTIONS ) {
+            add_header Access-Control-Allow-Origin "http://local.igot-dev.in:3000" ;
+            add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+            add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encodin
+            add_header Content-Length 0;
+            add_header Content-Type text/plain;
+            add_header Access-Control-Allow-Credentials true
+            return 200;
+
+    }
+  return 301 https://{{ proxy_server_name }}$request_uri;
+  }
   }
   {% endif %}
 
