@@ -86,7 +86,7 @@ proxyconfig: |-
     limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
     #return 301 https://{{ proxy_server_name }}$request_uri;
   return 301 https://{{ proxy_server_name }}$request_uri;
-  }
+  #}
   }
   {% endif %}
 
