@@ -85,17 +85,6 @@ proxyconfig: |-
     # Limitting open connection per ip
     limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
     #return 301 https://{{ proxy_server_name }}$request_uri;
-  location / {
-    if ($request_method = OPTIONS ) {
-            add_header Access-Control-Allow-Origin "http://local.igot-dev.in:3000" ;
-            add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
-                          add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
-            add_header Content-Length 0;
-            add_header Content-Type text/plain;
-            add_header Access-Control-Allow-Credentials true;
-            return 200;
-
-    }
   return 301 https://{{ proxy_server_name }}$request_uri;
   }
   }
@@ -393,14 +382,14 @@ proxyconfig: |-
       client_max_body_size 200M;
     }
     location /apis/ {
-      if ($request_method = OPTIONS ) {
-              add_header Access-Control-Allow-Origin "*" ;
-              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
-              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
-              add_header Content-Length 0;
-              add_header Content-Type text/plain;
-              return 200;
-      }
+      # if ($request_method = OPTIONS ) {
+       #       add_header Access-Control-Allow-Origin "*" ;
+       #       add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+       #       add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+        #      add_header Content-Length 0;
+        #      add_header Content-Type text/plain;
+        #      return 200;
+      #}
       # add_header Access-Control-Allow-Origin "*";
       # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
       proxy_cookie_path ~*^/.* /;
