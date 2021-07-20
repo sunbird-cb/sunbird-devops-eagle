@@ -6768,6 +6768,6 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
     - name: request-transformer
       config:
-         rename:
-      	   headers:
-           - nodebb_authorization_token:Authorization
+        rename:
+          headers:
+          - nodebb_authorization_token:Authorization
