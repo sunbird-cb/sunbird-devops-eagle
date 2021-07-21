@@ -6750,7 +6750,7 @@ kong_apis:
       config.allowed_payload_size: "{{ small_request_size_limit }}"
       
   - name: ContentUpdateReviewStatus
-    uris: "{{ content_prefix }}/v1/updateReviewStatus"
+    uris: "/action/content/v3/updateReviewStatus"
     upstream_url: "{{ content_service_url }}/content/v3/update"
     strip_uri: true
     plugins:
