@@ -136,7 +136,7 @@ proxyconfig: |-
     proxy_set_header    X-Forwarded-SSL   on;
     proxy_set_header    X-Forwarded-Proto $scheme;
     
-    add_header Content-Security-Policy "frame-ancestors 'self'; frame-src *.youtube.com *.igot-stage.in *.{{ proxy_server_name }};";
+    #add_header Content-Security-Policy "frame-ancestors 'self'; frame-src *.youtube.com *.igot-stage.in *.{{ proxy_server_name }};";
 
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
@@ -379,7 +379,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
       proxy_pass http://kong;
-      client_max_body_size 200M;
+      client_max_body_size 400M;
     }
     location /apis/ {
       # if ($request_method = OPTIONS ) {
@@ -464,7 +464,7 @@ proxyconfig: |-
 
          set $url_full         '$1';
          proxy_http_version     1.1;
-         proxy_set_header       Host https://igot-content.azureedge.net;
+         proxy_set_header       Host https://ppigot-content.azureedge.net;
          proxy_set_header       Authorization '';
          proxy_hide_header      Access-Control-Allow-Origin;
          proxy_hide_header      Access-Control-Allow-Methods;
@@ -1031,7 +1031,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
+    client_max_body_size 400M;
     }
 
   server {
@@ -1338,7 +1338,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -1892,7 +1892,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
+    client_max_body_size 400M;
 
     }
 
@@ -2783,7 +2783,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
+    client_max_body_size 400M;
    
     }
 
@@ -3044,7 +3044,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
+    client_max_body_size 400M;
 
     }
 
@@ -3936,7 +3936,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
  
-    client_max_body_size 200M;
+    client_max_body_size 400M;
 
     }
 
@@ -4096,7 +4096,277 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
+    client_max_body_size 400M;
+
+    }
+  server {
+    if ($host = frac-dictionary-backend.{{ proxy_server_name }}) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+      listen       80;
+      server_name  frac-dictionary-backend.{{ proxy_server_name }};
+      return 404; # managed by Certbot
+    }
+
+  server {
+    listen                443 ssl;
+    ssl_certificate       /etc/secrets/site.crt;
+    ssl_certificate_key   /etc/secrets/site.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
+    server_name *.frac-dictionary-backend.{{ proxy_server_name }} frac-dictionary-backend.{{ proxy_server_name }};
+    {#
+    custom nginx server config section
+    eg:
+    nginx_server_config: |
+      if ($allowed_country = no) {
+          return 444;
+      }
+    #}
+{% if nginx_server_config is defined and nginx_server_config %}
+  {{ nginx_server_config | indent( width=6, indentfirst=True)  }}
+{% endif %}
+    # Limitting open connection per ip
+    limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
+    proxy_set_header    Host              $host;
+    proxy_set_header    X-Real-IP         {{ nginx_client_public_ip_header | d('$remote_addr') }};
+    proxy_set_header    X-Forwarded-SSL   on;
+    proxy_set_header    X-Forwarded-Proto $scheme;
+    ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
+    resolver {{ kube_dns_ip }} valid=30s;
+
+    location / {
+      rewrite ^/(.*) /$1 break;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP {{ nginx_client_public_ip_header | d('$remote_addr') }};
+      proxy_set_header X-Scheme $scheme;
+      proxy_connect_timeout 5;
+      proxy_send_timeout 60;
+      proxy_read_timeout 70;
+      proxy_set_header    X-Forwarded-Proto $scheme;
+      proxy_set_header Connection "";
+      proxy_http_version 1.1;
+      proxy_set_header X-Request-ID $sb_request_id;
+      proxy_pass http://frac-dictionary-service:3040;
+    }
+
+    location /oauth2callback {
+      return 200 'OK';
+      add_header Content-Type text/plain;
+    }
+    {# Including custom configuration #}
+    {{ proxy_custom_config }}
+
     client_max_body_size 200M;
+
+    }
+
+  server {
+    if ($host = pm.{{ proxy_server_name }}) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+      listen       80;
+      server_name  pm.{{ proxy_server_name }};
+      return 404; # managed by Certbot
+    }
+
+  server {
+    listen                443 ssl;
+    ssl_certificate       /etc/secrets/site.crt;
+    ssl_certificate_key   /etc/secrets/site.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
+    server_name *.pm.{{ proxy_server_name }} pm.{{ proxy_server_name }};
+    {#
+    custom nginx server config section
+    eg:
+    nginx_server_config: |
+      if ($allowed_country = no) {
+          return 444;
+      }
+    #}
+{% if nginx_server_config is defined and nginx_server_config %}
+  {{ nginx_server_config | indent( width=6, indentfirst=True)  }}
+{% endif %}
+    # Limitting open connection per ip
+    limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
+    proxy_set_header    Host              $host;
+    proxy_set_header    X-Real-IP         {{ nginx_client_public_ip_header | d('$remote_addr') }};
+    proxy_set_header    X-Forwarded-SSL   on;
+    proxy_set_header    X-Forwarded-Proto $scheme;
+    ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
+    resolver {{ kube_dns_ip }} valid=30s;
+
+    location /auth/ {
+      rewrite ^/auth/(.*) /auth/$1 break;
+      proxy_set_header X-Request-ID $sb_request_id;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP {{ nginx_client_public_ip_header | d('$remote_addr') }};
+      proxy_set_header X-Scheme $scheme;
+      proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header Connection "";
+      proxy_http_version 1.1;
+      proxy_pass http://keycloak;
+    }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
+    location / {
+      rewrite ^/(.*) /$1 break;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP {{ nginx_client_public_ip_header | d('$remote_addr') }};
+      proxy_set_header X-Scheme $scheme;
+      proxy_connect_timeout 5;
+      proxy_send_timeout 60;
+      proxy_read_timeout 70;
+      proxy_set_header    X-Forwarded-Proto $scheme;
+      proxy_set_header Connection "";
+      proxy_http_version 1.1;
+      proxy_set_header X-Request-ID $sb_request_id;
+      proxy_pass http://pm-web-service;
+    }
+
+    location /pmapis/ {
+
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      rewrite ^/pmapis/(.*) /$1 break;
+      proxy_pass http://pm-zuul-service:8080;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
+    location /oauth2callback {
+      return 200 'OK';
+      add_header Content-Type text/plain;
+    }
+    {# Including custom configuration #}
+    {{ proxy_custom_config }}
+
+    client_max_body_size 200M;
+
+    }
+
+server {
+    if ($host = pm-survey.{{ proxy_server_name }}) {
+        return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+      listen       80;
+      server_name  pm-survey.{{ proxy_server_name }};
+      return 404; # managed by Certbot
+    }
+
+  server {
+    listen                443 ssl;
+    ssl_certificate       /etc/secrets/site.crt;
+    ssl_certificate_key   /etc/secrets/site.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
+    server_name *.pm-survey.{{ proxy_server_name }} pm-survey.{{ proxy_server_name }};
+    {#
+    custom nginx server config section
+    eg:
+    nginx_server_config: |
+      if ($allowed_country = no) {
+          return 444;
+      }
+    #}
+{% if nginx_server_config is defined and nginx_server_config %}
+  {{ nginx_server_config | indent( width=6, indentfirst=True)  }}
+{% endif %}
+    # Limitting open connection per ip
+    limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
+    proxy_set_header    Host              $host;
+    proxy_set_header    X-Real-IP         {{ nginx_client_public_ip_header | d('$remote_addr') }};
+    proxy_set_header    X-Forwarded-SSL   on;
+    proxy_set_header    X-Forwarded-Proto $scheme;
+    ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
+    resolver {{ kube_dns_ip }} valid=30s;
+
+    location / {
+      rewrite ^/(.*) /$1 break;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP {{ nginx_client_public_ip_header | d('$remote_addr') }};
+      proxy_set_header X-Scheme $scheme;
+      proxy_connect_timeout 5;
+      proxy_send_timeout 60;
+      proxy_read_timeout 70;
+      proxy_set_header    X-Forwarded-Proto $scheme;
+      proxy_set_header Connection "";
+      proxy_http_version 1.1;
+      proxy_set_header X-Request-ID $sb_request_id;
+      proxy_pass http://pm-microsurvey-web-service:5000;
+    }
+
+    location /api/ {
+
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      rewrite ^/api/(.*) /$1 break;
+      proxy_pass http://pm-microsurvey-service:8099;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
+    location /oauth2callback {
+      return 200 'OK';
+      add_header Content-Type text/plain;
+    }
+    {# Including custom configuration #}
+    {{ proxy_custom_config }}
+
+    client_max_body_size 400M;
 
     }
 
@@ -4159,94 +4429,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
-
-    }
-
-  server {
-    if ($host = officer-survey.{{ proxy_server_name }}) {
-        return 301 https://$host$request_uri;
-        } # managed by Certbot
-
-      listen       80;
-      server_name  officer-survey.{{ proxy_server_name }};
-      return 404; # managed by Certbot
-    }
-
-  server {
-    listen                443 ssl;
-    ssl_certificate       /etc/secrets/site.crt;
-    ssl_certificate_key   /etc/secrets/site.key;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.officer-survey.{{ proxy_server_name }} officer-survey.{{ proxy_server_name }};
-    {#
-    custom nginx server config section
-    eg:
-    nginx_server_config: |
-      if ($allowed_country = no) {
-          return 444;
-      }
-
-    #}
-{% if nginx_server_config is defined and nginx_server_config %}
-  {{ nginx_server_config | indent( width=6, indentfirst=True)  }}
-{% endif %}
-    # Limitting open connection per ip
-    limit_conn limitbyaddr {{ nginx_per_ip_connection_limit }};
-    proxy_set_header    Host              $host;
-    proxy_set_header    X-Real-IP         {{ nginx_client_public_ip_header | d('$remote_addr') }};
-    proxy_set_header    X-Forwarded-SSL   on;
-    proxy_set_header    X-Forwarded-Proto $scheme;
-    ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
-    resolver {{ kube_dns_ip }} valid=30s;
-
-    location / {
-      rewrite ^/(.*) /$1 break;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP {{ nginx_client_public_ip_header | d('$remote_addr') }};
-      proxy_set_header X-Scheme $scheme;
-      proxy_connect_timeout 5;
-      proxy_send_timeout 60;
-      proxy_read_timeout 70;
-      proxy_set_header    X-Forwarded-Proto $scheme;
-      proxy_set_header Connection "";
-      proxy_http_version 1.1;
-      proxy_set_header X-Request-ID $sb_request_id;
-      proxy_pass http://wat-sourcing-web-service;
-    }
-
-    location /watapis {
-
-      if ($request_method = OPTIONS ) {
-              add_header Access-Control-Allow-Origin "*" ;
-              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
-              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
-              add_header Content-Length 0;
-              add_header Content-Type text/plain;
-              return 200;
-      }
-      proxy_cookie_path ~*^/.* /;
-      proxy_set_header X-Real-IP  $remote_addr;
-      proxy_set_header X-Forwarded-For $remote_addr;
-      proxy_set_header Host $host;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Server $host;
-      rewrite ^/watapis/(.*) /$1 break;
-      proxy_pass http://wat-sourcing-service:5000;
-      proxy_connect_timeout 10;
-      proxy_send_timeout 300;
-      proxy_read_timeout 300;
-    }
-
-    location /oauth2callback {
-      return 200 'OK';
-      add_header Content-Type text/plain;
-    }
-    {# Including custom configuration #}
-    {{ proxy_custom_config }}
-
-    client_max_body_size 200M;
+    client_max_body_size 400M;
 
     }
 
@@ -4584,7 +4767,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -5138,7 +5321,7 @@ proxyconfig: |-
     {# Including custom configuration #}
     {{ proxy_custom_config }}
 
-    client_max_body_size 200M;
+    client_max_body_size 400M;
 
     }
  
