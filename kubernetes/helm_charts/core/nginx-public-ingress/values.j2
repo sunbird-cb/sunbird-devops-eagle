@@ -976,7 +976,7 @@ proxyconfig: |-
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
   {% endif  %}
-    server_name *.ui.igot-stage.in ui.igot-stage.in;
+    server_name *.ui.{{ proxy_server_name }} ui.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -997,13 +997,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://ui.igot-stage.in;
+      return 301 {{proto}}://ui.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://ui.igot-stage.in;
+      return 301 {{proto}}://ui.{{ proxy_server_name }};
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://ui.igot-stage.in;
+      return 301 {{proto}}://ui.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -1024,7 +1024,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://ui.igot-stage.in;
+      return 301 {{proto}}://ui.{{ proxy_server_name }};
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -1828,12 +1828,12 @@ proxyconfig: |-
     }
 
    server {
-    if ($host = cbp.igot-stage.in) {
+    if ($host = cbp.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  cbp.igot-stage.in;
+      server_name  cbp.{{ proxy_server_name }};
       return 404;
     }
    server {
@@ -1842,7 +1842,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.cbp.igot-stage.in cbp.igot-stage.in;
+    server_name *.cbp.{{ proxy_server_name }} cbp.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -1863,13 +1863,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://cbp.igot-stage.in;
+      return 301 {{proto}}://cbp.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://cbp.igot-stage.in;
+      return 301 {{proto}}://cbp.{{ proxy_server_name }};
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://cbp.igot-stage.in;
+      return 301 {{proto}}://cbp.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -1890,7 +1890,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://cbp.igot-stage.in;
+      return 301 {{proto}}://cbp.{{ proxy_server_name }};
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -2694,12 +2694,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = cbc.igot-stage.in) {
+    if ($host = cbc.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  cbc.igot-stage.in;
+      server_name  cbc.{{ proxy_server_name }};
       return 404;
     }
 
@@ -2709,7 +2709,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.cbc.igot-stage.in cbc.igot-stage.in;
+    server_name *.cbc.{{ proxy_server_name }} cbc.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -2730,13 +2730,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://cbc.igot-stage.in;
+      return 301 {{proto}}://cbc.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://cbc.igot-stage.in;
+      return 301 {{proto}}://cbc.{{ proxy_server_name }};
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://cbc.igot-stage.in;
+      return 301 {{proto}}://cbc.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -2757,7 +2757,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://cbc.igot-stage.in;
+      return 301 {{proto}}://cbc.{{ proxy_server_name }};
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -2932,12 +2932,12 @@ proxyconfig: |-
 
 
    server {
-    if ($host = spv.igot-stage.in) {
+    if ($host = spv.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  spv.igot-stage.in;
+      server_name  spv.{{ proxy_server_name }};
       return 404;
     }
    server {
@@ -2946,7 +2946,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.spv.igot-stage.in spv.igot-stage.in;
+    server_name *.spv.{{ proxy_server_name }} spv.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -2967,13 +2967,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://spv.igot-stage.in;
+      return 301 {{proto}}://spv.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://spv.igot-stage.in;
+      return 301 {{proto}}://spv.{{ proxy_server_name }};
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://spv.igot-stage.in;
+      return 301 {{proto}}://spv.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -2994,7 +2994,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://spv.igot-stage.in;
+      return 301 {{proto}}://spv.{{ proxy_server_name }};
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
@@ -3798,12 +3798,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = frac.igot-stage.in) {
+    if ($host = frac.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  frac.igot-stage.in;
+      server_name  frac.{{ proxy_server_name }};
       return 404; 
     }
 
@@ -3813,7 +3813,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.frac.igot-stage.in frac.igot-stage.in;
+    server_name *.frac.{{ proxy_server_name }} frac.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -3932,12 +3932,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = pm.igot-stage.in) {
+    if ($host = pm.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  pm.igot-stage.in;
+      server_name  pm.{{ proxy_server_name }};
       return 404; # managed by Certbot
     }
 
@@ -3947,7 +3947,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.pm.igot-stage.in pm.igot-stage.in;
+    server_name *.pm.{{ proxy_server_name }} pm.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -4031,12 +4031,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = pm-survey.igot-stage.in) {
+    if ($host = pm-survey.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  pm-survey.igot-stage.in;
+      server_name  pm-survey.{{ proxy_server_name }};
       return 404; # managed by Certbot
     }
 
@@ -4046,7 +4046,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.pm-survey.igot-stage.in pm-survey.igot-stage.in;
+    server_name *.pm-survey.{{ proxy_server_name }} pm-survey.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -4118,12 +4118,12 @@ proxyconfig: |-
 
 
   server {
-    if ($host = frac-dictionary-backend.igot-stage.in) {
+    if ($host = frac-dictionary-backend.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  frac-dictionary-backend.igot-stage.in;
+      server_name  frac-dictionary-backend.{{ proxy_server_name }};
       return 404; # managed by Certbot
     }
 
@@ -4133,7 +4133,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.frac-dictionary-backend.igot-stage.in frac-dictionary-backend.igot-stage.in;
+    server_name *.frac-dictionary-backend.{{ proxy_server_name }} frac-dictionary-backend.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -4182,12 +4182,12 @@ proxyconfig: |-
 
 
   server {
-    if ($host = mdo.igot-stage.in) {
+    if ($host = mdo.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  mdo.igot-stage.in;
+      server_name  mdo.{{ proxy_server_name }};
       return 404;
     }
 
@@ -4197,7 +4197,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.mdo.igot-stage.in mdo.igot-stage.in;
+    server_name *.mdo.{{ proxy_server_name }} mdo.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -4218,13 +4218,13 @@ proxyconfig: |-
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
-      return 301 {{proto}}://mdo.igot-stage.in;
+      return 301 {{proto}}://mdo.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/master {
-      return 301 {{proto}}://mdo.igot-stage.in;
+      return 301 {{proto}}://mdo.{{ proxy_server_name }};
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://mdo.igot-stage.in;
+      return 301 {{proto}}://mdo.{{ proxy_server_name }};
     }
     location ~* ^/auth/realms/(.+)/token/introspect/ {
           return 301 {{proto}}://$host/api/auth/v1/realms/$1/token/introspect;
@@ -4245,7 +4245,7 @@ proxyconfig: |-
       return 301 {{proto}}://$host/api/auth/v1/realms/$1/clients-registrations/;
     }
     location ~* ^/auth/admin/master/console/ {
-      return 301 {{proto}}://mdo.igot-stage.in;
+      return 301 {{proto}}://mdo.{{ proxy_server_name }};
     }
     location ~* ^/auth/v1/refresh/token  {
       rewrite ^/auth/(.*) /auth/$1 break;
