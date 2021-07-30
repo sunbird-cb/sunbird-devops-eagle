@@ -397,6 +397,53 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
     location /nodebb/ {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -407,7 +454,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.1.0.11:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -1259,6 +1306,30 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
     location /nodebb/ {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -2125,6 +2196,30 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
     location /nodebb/ {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -2901,6 +2996,30 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
     location  ~ /resourcebundles/v1/read|/learner/data/v1/(role/read|system/settings/get)|/v1/tenant/info  {
       proxy_cache_key $proxy_host$request_uri;
       proxy_cache framework_cache;
@@ -3229,6 +3348,30 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
     location /nodebb/ {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -4480,6 +4623,30 @@ proxyconfig: |-
       proxy_send_timeout 300;
       proxy_read_timeout 300;
     }
+    location /protected/v8/resource/ {
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      # add_header Access-Control-Allow-Origin "*";
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_pass http://ui-proxies:3003;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
+    }
+
+
     location /nodebb/ {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
