@@ -1317,7 +1317,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -2207,7 +2207,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -3359,7 +3359,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
@@ -4634,7 +4634,7 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection "upgrade";
-      set $target http://10.0.0.12:4567;
+      set $target http://{{ nodebbvmip }}:4567;
       proxy_pass $target;
     }
     # Oauth2 config
