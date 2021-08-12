@@ -1876,12 +1876,12 @@ proxyconfig: |-
     }
 
    server {
-    if ($host = cbp.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-cbp.idc.tarento.com) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  cbp.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-cbp.idc.tarento.com;
       return 404;
     }
    server {
@@ -1890,7 +1890,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.cbp.{{ proxy_server_name }} cbp.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-cbp.idc.tarento.com igot-bm-sunbird-cbp.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -2766,12 +2766,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = cbc.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-cbc.idc.tarento.com) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  cbc.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-cbc.idc.tarento.com;
       return 404;
     }
 
@@ -2781,7 +2781,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.cbc.{{ proxy_server_name }} cbc.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-cbc.idc.tarento.com igot-bm-sunbird-cbc.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -3028,12 +3028,12 @@ proxyconfig: |-
 
 
    server {
-    if ($host = spv.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-spv.idc.tarento.com) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  spv.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-spv.idc.tarento.com;
       return 404;
     }
    server {
@@ -3042,7 +3042,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.spv.{{ proxy_server_name }} spv.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-spv.idc.tarento.com igot-bm-sunbird-spv.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -3918,12 +3918,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = frac.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-frac.idc.tarento.com) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  frac.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-frac.idc.tarento.com;
       return 404; 
     }
 
@@ -3933,7 +3933,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.frac.{{ proxy_server_name }} frac.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-frac.idc.tarento.com igot-bm-sunbird-frac.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -4052,12 +4052,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = pm.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-pm.idc.tarento.com) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  pm.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-pm.idc.tarento.com;
       return 404; # managed by Certbot
     }
 
@@ -4067,7 +4067,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.pm.{{ proxy_server_name }} pm.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-pm.idc.tarento.com igot-bm-sunbird-pm.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -4151,12 +4151,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = frac-dictionary-backend.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-frac-dic.idc.tarento.com) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  frac-dictionary-backend.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-frac-dic.idc.tarento.com;
       return 404; # managed by Certbot
     }
 
@@ -4166,7 +4166,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.frac-dictionary-backend.{{ proxy_server_name }} frac-dictionary-backend.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-frac-dic.idc.tarento.com igot-bm-sunbird-frac-dic.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
@@ -4215,12 +4215,12 @@ proxyconfig: |-
 
 
   server {
-    if ($host = mdo.{{ proxy_server_name }}) {
+    if ($host = igot-bm-sunbird-mdo.idc.tarento.com) {
         return 301 https://$host$request_uri;
         }
 
       listen       80;
-      server_name  mdo.{{ proxy_server_name }};
+      server_name  igot-bm-sunbird-mdo.idc.tarento.com;
       return 404;
     }
 
@@ -4230,7 +4230,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.mdo.{{ proxy_server_name }} mdo.{{ proxy_server_name }};
+    server_name *.igot-bm-sunbird-mdo.idc.tarento.com igot-bm-sunbird-mdo.idc.tarento.com;
     {#
     custom nginx server config section
     eg:
