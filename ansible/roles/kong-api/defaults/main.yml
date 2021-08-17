@@ -110,6 +110,7 @@ scoring_engine_service_url: "http://scoring-engine-service:7014"
 hub_graph_service_url: "http://hub-graph-service:4013"
 workflow_handler_service_url: "http://workflow-handler-service:5099"
 discussions_mw_url: "http://discussionsmw-service:3002"
+nodebb_url: "http://nodebb-service:4567/discussions"
 
 
 premium_consumer_rate_limits:
@@ -6862,3 +6863,45 @@ kong_apis:
         rename:
           headers:
           - nodebb_authorization_token:Authorization
+          
+  - name: nodebbauthAPIs
+    uris: "/nodebb/auth/api"
+    upstream_url: "{{ nodebb_url }}/api"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ medium_request_size_limit }}"
+    - name: request-transformer
+      config:
+        rename:
+          headers:
+          - nodebb_authorization_token:authorization
+          
+  - name: nodebbAPIs
+    uris: "/nodebb/api"
+    upstream_url: "{{ nodebb_url }}/api"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ medium_request_size_limit }}"
+  
