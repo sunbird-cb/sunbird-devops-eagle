@@ -31,6 +31,7 @@ premium_consumer_large_rate_limit_per_hour: 100000
 small_request_size_limit: 1
 medium_request_size_limit: 10
 large_request_size_limit: 100
+x_large_request_size_limit: 400
 
 # External URL's
 freshDesk_url: "http://dummy.freshDesk.url"
