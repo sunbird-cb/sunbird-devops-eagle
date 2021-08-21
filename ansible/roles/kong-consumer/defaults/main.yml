@@ -65,6 +65,7 @@ kong_all_consumer_groups:
   - objectAccess
   - orgAccess
   - orgCreate
+  - orgUpdate
   - pageAccess
   - pluginAccess
   - reportsAccess
@@ -74,6 +75,7 @@ kong_all_consumer_groups:
   - ssoCreate
   - userAccess
   - userAdmin
+  - userSuperAdmin
   - userCreate
   - userTempAdmin
   - userUpdate
