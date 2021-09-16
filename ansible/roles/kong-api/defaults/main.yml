@@ -6366,6 +6366,24 @@ kong_apis:
     - name: request-size-limiting
       config.allowed_payload_size: "{{ small_request_size_limit }}"
       
+  - name: getUserCompentenciesDetails
+    uris: "/v2/workallocation/user/competencies"
+    upstream_url: "{{ sb_cb_ext_service_url }}/v2/workallocation/user/competencies"
+    strip_uri: true
+    plugins:
+    - name: jwt
+    - name: cors
+    - "{{ statsd_pulgin }}"
+    - name: acl
+      config.whitelist:
+        - 'dataAccess'
+    - name: rate-limiting
+      config.policy: local
+      config.hour: "{{ medium_rate_limit_per_hour }}"
+      config.limit_by: credential
+    - name: request-size-limiting
+      config.allowed_payload_size: "{{ small_request_size_limit }}"
+      
   - name: startPdfProfanity
     uris: "{{ content_validation_service_prefix }}/v1/startPdfProfanity"
     upstream_url: "{{ content_validation_service_url }}/v1/startPdfProfanity"
