@@ -112,6 +112,7 @@ hub_graph_service_url: "http://hub-graph-service:4013"
 workflow_handler_service_url: "http://workflow-handler-service:5099"
 discussions_mw_url: "http://discussionsmw-service:3002"
 nodebb_url: "http://nodebb-service:4567/discussions"
+analytics_url: "http://pm-zuul-service:8080"
 
 
 premium_consumer_rate_limits:
