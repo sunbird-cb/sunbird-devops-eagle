@@ -6920,3 +6920,56 @@ kong_apis:
     - name: request-size-limiting
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
   
+  - name: "analyticsGetDashboardsForProfile"
+    uris: "{{ dashboard_service_prefix }}/dashboard/getDashboardsForProfile/Karmayogi"
+    upstream_url: "{{ analytics_url }}/dashboard/getDashboardsForProfile/Karmayogi"
+    strip_uri: true
+    plugins:
+     - name: jwt
+     - name: cors
+     - "{{ statsd_pulgin }}"
+     - name: acl
+       config.whitelist:
+         - 'dataAccess'
+     - name: rate-limiting
+       config.policy: local
+       config.hour: "{{ medium_rate_limit_per_hour }}"
+       config.limit_by: credential
+     - name: request-size-limiting
+       config.allowed_payload_size: "{{ small_request_size_limit }}"
+       
+  - name: "analyticsGetChartVisualization"
+    uris: "{{ dashboard_service_prefix }}/dashboard/getChartV2/Karmayogi"
+    upstream_url: "{{ analytics_url }}/dashboard/getChartV2/Karmayogi"
+    strip_uri: true
+    plugins:
+     - name: jwt
+     - name: cors
+     - "{{ statsd_pulgin }}"
+     - name: acl
+       config.whitelist:
+         - 'dataAccess'
+     - name: rate-limiting
+       config.policy: local
+       config.hour: "{{ medium_rate_limit_per_hour }}"
+       config.limit_by: credential
+     - name: request-size-limiting
+       config.allowed_payload_size: "{{ small_request_size_limit }}"
+ 
+  - name: "analyticsGetDashboardConfiguration"
+    uris: "{{ dashboard_service_prefix }}/dashboard/getDashboardConfig/Karmayogi"
+    upstream_url: "{{ analytics_url }}/dashboard/getDashboardConfig/Karmayogi"
+    strip_uri: true
+    plugins:
+     - name: jwt
+     - name: cors
+     - "{{ statsd_pulgin }}"
+     - name: acl
+       config.whitelist:
+         - 'dataAccess'
+     - name: rate-limiting
+       config.policy: local
+       config.hour: "{{ medium_rate_limit_per_hour }}"
+       config.limit_by: credential
+     - name: request-size-limiting
+       config.allowed_payload_size: "{{ small_request_size_limit }}"
