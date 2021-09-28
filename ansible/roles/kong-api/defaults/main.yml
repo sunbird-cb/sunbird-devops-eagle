@@ -6922,8 +6922,8 @@ kong_apis:
       config.allowed_payload_size: "{{ medium_request_size_limit }}"
   
   - name: "analyticsGetDashboardsForProfile"
-    uris: "{{ dashboard_service_prefix }}/dashboard/getDashboardsForProfile/Karmayogi"
-    upstream_url: "{{ analytics_url }}/dashboard/getDashboardsForProfile/Karmayogi"
+    uris: "{{ dashboard_service_prefix }}/analytics/getDashboardsForProfile/Karmayogi"
+    upstream_url: "{{ analytics_url }}/analytics/getDashboardsForProfile/Karmayogi"
     strip_uri: true
     plugins:
      - name: jwt
@@ -6940,8 +6940,8 @@ kong_apis:
        config.allowed_payload_size: "{{ small_request_size_limit }}"
        
   - name: "analyticsGetChartVisualization"
-    uris: "{{ dashboard_service_prefix }}/dashboard/getChartV2/Karmayogi"
-    upstream_url: "{{ analytics_url }}/dashboard/getChartV2/Karmayogi"
+    uris: "{{ dashboard_service_prefix }}/analytics/getChartV2/Karmayogi"
+    upstream_url: "{{ analytics_url }}/analytics/getChartV2/Karmayogi"
     strip_uri: true
     plugins:
      - name: jwt
@@ -6958,8 +6958,8 @@ kong_apis:
        config.allowed_payload_size: "{{ small_request_size_limit }}"
  
   - name: "analyticsGetDashboardConfiguration"
-    uris: "{{ dashboard_service_prefix }}/dashboard/getDashboardConfig/Karmayogi"
-    upstream_url: "{{ analytics_url }}/dashboard/getDashboardConfig/Karmayogi"
+    uris: "{{ dashboard_service_prefix }}/analytics/getDashboardConfig/Karmayogi"
+    upstream_url: "{{ analytics_url }}/analytics/getDashboardConfig/Karmayogi"
     strip_uri: true
     plugins:
      - name: jwt
