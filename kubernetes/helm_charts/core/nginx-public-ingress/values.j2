@@ -4496,12 +4496,12 @@ proxyconfig: |-
     }
 
   server {
-    if ($host = dev-console.{{ proxy_server_name }}) {
+    if ($host = console.{{ proxy_server_name }}) {
         return 301 https://$host$request_uri;
         } # managed by Certbot
 
       listen       80;
-      server_name  dev-console.{{ proxy_server_name }};
+      server_name  console.{{ proxy_server_name }};
       return 404; # managed by Certbot
     }
 
@@ -4511,7 +4511,7 @@ proxyconfig: |-
     ssl_certificate_key   /etc/secrets/site.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-    server_name *.dev-console.{{ proxy_server_name }} dev-console.{{ proxy_server_name }};
+    server_name *.console.{{ proxy_server_name }} console.{{ proxy_server_name }};
     {#
     custom nginx server config section
     eg:
@@ -4581,6 +4581,29 @@ proxyconfig: |-
       proxy_http_version 1.1;
       proxy_set_header X-Request-ID $sb_request_id;
       proxy_pass http://developer-console-web-portal:5000;
+    }
+
+    location /apis/ {
+
+      if ($request_method = OPTIONS ) {
+              add_header Access-Control-Allow-Origin "*" ;
+              add_header Access-Control-Allow-Methods "GET, OPTIONS, PATCH, POST";
+              add_header Access-Control-Allow-Headers "Access-Control-Allow-Origin, Authorization, Content-Type, user-id, Content-Encoding, rootorg, org, wid, hostpath";
+              add_header Content-Length 0;
+              add_header Content-Type text/plain;
+              return 200;
+      }
+      proxy_cookie_path ~*^/.* /;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $remote_addr;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      rewrite ^/pmapis/(.*) /$1 break;
+      proxy_pass http://developer-console-service:8080;
+      proxy_connect_timeout 10;
+      proxy_send_timeout 300;
+      proxy_read_timeout 300;
     }
 
     location /oauth2callback {
