@@ -131,6 +131,7 @@ proxyconfig: |-
     proxy_set_header    X-Real-IP         {{ nginx_client_public_ip_header | d('$remote_addr') }};
     proxy_set_header    X-Forwarded-SSL   on;
     proxy_set_header    X-Forwarded-Proto $scheme;
+    include /etc/nginx/mime.types;
     ignore_invalid_headers off;  #pass through headers from Jenkins which are considered invalid by Nginx server.
     resolver {{ kube_dns_ip }} valid=30s;
     location ~* ^/auth/(.*)/impersonation {
